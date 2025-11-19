@@ -1,0 +1,127 @@
+.app {
+  position: relative;
+  min-height: 100vh;
+}
+
+/* Navbar */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  padding: var(--spacing-md) 0;
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: 800;
+  font-family: var(--font-display);
+}
+
+.nav-links {
+  display: flex;
+  gap: var(--spacing-lg);
+  align-items: center;
+}
+
+.nav-link {
+  color: var(--text-secondary);
+  font-weight: 500;
+  transition: color var(--transition-fast);
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--gradient-primary);
+  transition: width var(--transition-base);
+}
+
+.nav-link:hover {
+  color: var(--text-primary);
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+.admin-link {
+  padding: 0.5rem 1rem;
+  background: var(--bg-glass);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+}
+
+.admin-link:hover {
+  background: var(--bg-glass-hover);
+  border-color: var(--primary);
+}
+
+.admin-link::after {
+  display: none;
+}
+
+main {
+  padding-top: 80px;
+}
+
+/* Footer */
+.footer {
+  padding: var(--spacing-xl) 0;
+  text-align: center;
+  border-top: 1px solid var(--border-color);
+  background: var(--bg-secondary);
+  margin-top: var(--spacing-2xl);
+}
+
+.footer p {
+  color: var(--text-muted);
+  margin: var(--spacing-xs) 0;
+}
+
+.footer-tech {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  opacity: 0.7;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .nav-links {
+    gap: var(--spacing-sm);
+    font-size: 0.875rem;
+  }
+
+  .nav-link {
+    padding: 0.5rem;
+  }
+
+  .logo {
+    font-size: 1.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .nav-links {
+    display: none;
+  }
+
+  /* Mobile menu would go here */
+}
