@@ -1,0 +1,271 @@
+.eve-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.eve-robot {
+    position: relative;
+    filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.3));
+}
+
+.eve-body {
+    position: relative;
+    width: 160px;
+    height: 240px;
+}
+
+/* Main egg-shaped body - pointed/tapered like upside-down egg top (3/4 of egg) */
+.eve-torso {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 140px;
+    height: 150px;
+    background: linear-gradient(145deg, #ffffff 0%, #e8e8e8 40%, #d0d0d0 100%);
+    /* More pointed/tapered shape - like upside down egg */
+    border-radius: 10% 10% 50% 50% / 35% 35% 65% 65%;
+    box-shadow:
+        inset -15px -15px 35px rgba(0, 0, 0, 0.12),
+        inset 15px 15px 35px rgba(255, 255, 255, 0.6),
+        0 15px 35px rgba(0, 0, 0, 0.25);
+    animation: float-body 4s ease-in-out infinite;
+}
+
+@keyframes float-body {
+
+    0%,
+    100% {
+        transform: translateX(-50%) translateY(0);
+    }
+
+    50% {
+        transform: translateX(-50%) translateY(-8px);
+    }
+}
+
+/* Highlight on body */
+.eve-torso::before {
+    content: '';
+    position: absolute;
+    top: 18%;
+    left: 18%;
+    width: 35%;
+    height: 45%;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.7), transparent);
+    border-radius: 50%;
+    filter: blur(12px);
+}
+
+/* Head - floating separate piece (1/4 of egg) - WHITE outer shell */
+.eve-head {
+    position: absolute;
+    top: -15px;
+    /* Gap between head and body */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 135px;
+    height: 100px;
+    background: linear-gradient(145deg, #ffffff 0%, #f0f0f0 50%, #e0e0e0 100%);
+    border-radius: 50% 50% 35% 35% / 70% 70% 40% 40%;
+    box-shadow:
+        inset -10px -10px 25px rgba(0, 0, 0, 0.1),
+        inset 10px 10px 25px rgba(255, 255, 255, 0.6),
+        0 10px 25px rgba(0, 0, 0, 0.3);
+    overflow: visible;
+    animation: float-head 4s ease-in-out infinite 0.2s;
+}
+
+@keyframes float-head {
+
+    0%,
+    100% {
+        transform: translateX(-50%) translateY(0);
+    }
+
+    50% {
+        transform: translateX(-50%) translateY(-10px);
+    }
+}
+
+/* White head highlight */
+.eve-head::before {
+    content: '';
+    position: absolute;
+    top: 15%;
+    left: 20%;
+    width: 30%;
+    height: 40%;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.8), transparent);
+    border-radius: 50%;
+    filter: blur(8px);
+}
+
+/* BLACK screen inside the white head */
+.eve-head::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 110px;
+    height: 60px;
+    background: linear-gradient(180deg, #16213e 0%, #0f1624 100%);
+    border-radius: 50% 50% 35% 35% / 70% 70% 40% 40%;
+    box-shadow:
+        inset 0 -5px 20px rgba(0, 0, 0, 0.6),
+        0 3px 10px rgba(0, 0, 0, 0.4);
+}
+
+/* Eyes container - positioned on the black screen */
+.eve-eyes {
+    position: absolute;
+    top: 52%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    gap: 20px;
+    z-index: 10;
+}
+
+/* Individual eye - oval shape */
+.eve-eye {
+    width: 30px;
+    height: 20px;
+    background: linear-gradient(180deg, #5ddef4 0%, #2196f3 50%, #1976d2 100%);
+    border-radius: 50%;
+    position: relative;
+    box-shadow:
+        0 0 25px rgba(93, 222, 244, 0.9),
+        0 0 45px rgba(93, 222, 244, 0.6),
+        inset 0 -6px 18px rgba(0, 0, 0, 0.35),
+        inset 0 6px 18px rgba(255, 255, 255, 0.35);
+    animation: blink 6s infinite;
+    overflow: hidden;
+    transition: height 0.08s ease, border-radius 0.08s ease;
+}
+
+/* Eye highlight */
+.eve-eye::before {
+    content: '';
+    position: absolute;
+    top: 22%;
+    left: 25%;
+    width: 35%;
+    height: 35%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.7), transparent);
+    border-radius: 50%;
+    filter: blur(2px);
+}
+
+/* Eye pupil/iris - brighter center */
+.eye-pupil {
+    width: 18px;
+    height: 18px;
+    background: radial-gradient(circle, #ffffff 0%, #b3e5fc 30%, #4dd0e1 100%);
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transition: transform 0.1s ease-out;
+    box-shadow:
+        0 0 18px rgba(255, 255, 255, 0.9),
+        0 0 30px rgba(77, 208, 225, 0.7);
+}
+
+/* Cartoon-style blink - eyes become horizontal line */
+@keyframes blink {
+
+    0%,
+    94%,
+    100% {
+        height: 20px;
+        border-radius: 50%;
+    }
+
+    95%,
+    96% {
+        height: 2px;
+        border-radius: 0;
+    }
+}
+
+/* Sleek arms - oval shaped slices hanging down */
+.eve-arm {
+    position: absolute;
+    width: 18px;
+    height: 130px;
+    background: linear-gradient(145deg, #f5f5f5 0%, #e0e0e0 50%, #d0d0d0 100%);
+    border-radius: 50%;
+    top: 43%;
+    /* Positioned near shoulders/top of torso */
+    box-shadow:
+        inset -2px -2px 10px rgba(0, 0, 0, 0.18),
+        inset 2px 2px 10px rgba(255, 255, 255, 0.6),
+        0 6px 18px rgba(0, 0, 0, 0.25);
+}
+
+/* Arm highlight */
+.eve-arm::before {
+    content: '';
+    position: absolute;
+    top: 15%;
+    left: 30%;
+    width: 30%;
+    height: 50%;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.5), transparent);
+    border-radius: 50%;
+    filter: blur(2px);
+}
+
+.left-arm {
+    left: -10px;
+    transform: rotate(0deg);
+    animation: float-left-arm 3.5s ease-in-out infinite;
+}
+
+.right-arm {
+    right: -10px;
+    transform: rotate(0deg);
+    animation: float-right-arm 3.5s ease-in-out infinite 0.3s;
+}
+
+@keyframes float-left-arm {
+
+    0%,
+    100% {
+        transform: rotate(0deg) translateY(0);
+    }
+
+    50% {
+        transform: rotate(10deg) translateY(-6px);
+    }
+}
+
+@keyframes float-right-arm {
+
+    0%,
+    100% {
+        transform: rotate(0deg) translateY(0);
+    }
+
+    50% {
+        transform: rotate(-10deg) translateY(-6px);
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .eve-container {
+        bottom: 10px;
+        right: 10px;
+    }
+
+    .eve-body {
+        transform: scale(0.65);
+        transform-origin: bottom right;
+    }
+}
