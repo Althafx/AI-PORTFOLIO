@@ -1,61 +1,25 @@
 import express from 'express';
-import User from '../models/User.js';
 import { generateToken, protect } from '../middleware/auth.js';
 
 const router = express.Router();
 
-// @route   POST /api/auth/register
-// @desc    Register a new admin user
-// @access  Public (but should be restricted in production)
-router.post('/register', async (req, res) => {
-    try {
-        const { username, email, password } = req.body;
-
-        // Check if user already exists
-        const userExists = await User.findOne({ $or: [{ email }, { username }] });
-
-        if (userExists) {
-            return res.status(400).json({ message: 'User already exists' });
-        }
-
-        // Create user
-        const user = await User.create({
-            username,
-            email,
-            password
-        });
-
-        if (user) {
-            res.status(201).json({
-                _id: user._id,
-                username: user.username,
-                email: user.email,
-                token: generateToken(user._id)
-            });
-        } else {
-            res.status(400).json({ message: 'Invalid user data' });
-        }
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-});
-
 // @route   POST /api/auth/login
-// @desc    Authenticate user & get token
+// @desc    Authenticate admin with hardcoded credentials
 // @access  Public
 router.post('/login', async (req, res) => {
     try {
         const { email, password } = req.body;
 
-        // Find user by email
-        const user = await User.findOne({ email });
+        // Validate against hardcoded admin credentials from .env
+        if (email === process.env.ADMIN_EMAIL && password === process.env.ADMIN_PASSWORD) {
+            // Generate a dummy user ID for token generation
+            const adminUserId = 'admin-user-id';
 
-        if (user && (await user.comparePassword(password))) {
             res.json({
-                _id: user._id,
-                username: user.username,
-                email: user.email,
-                token: generateToken(user._id)
+                _id: adminUserId,
+                username: 'Admin',
+                email: process.env.ADMIN_EMAIL,
+                token: generateToken(adminUserId)
             });
         } else {
             res.status(401).json({ message: 'Invalid email or password' });

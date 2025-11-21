@@ -1,5 +1,5 @@
 import express from 'express';
-import { chatWithGemini } from '../services/gemini.js';
+import { chatWithGroq } from '../services/groq.js';
 
 const router = express.Router();
 
@@ -14,7 +14,7 @@ router.post('/', async (req, res) => {
             return res.status(400).json({ message: 'Message is required' });
         }
 
-        const response = await chatWithGemini(message);
+        const response = await chatWithGroq(message);
 
         res.json({ response });
     } catch (error) {

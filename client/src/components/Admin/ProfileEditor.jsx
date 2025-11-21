@@ -8,13 +8,16 @@ const ProfileEditor = () => {
         name: '',
         title: '',
         bio: '',
+        shortBio: '',
+        longBio: '',
         email: '',
         phone: '',
         location: '',
         github: '',
         linkedin: '',
         twitter: '',
-        website: ''
+        website: '',
+        profileImage: ''
     });
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState('');
@@ -92,15 +95,46 @@ const ProfileEditor = () => {
                 </div>
 
                 <div className="form-group">
-                    <label>Bio *</label>
+                    <label>Profile Image</label>
+                    {profile.profileImage && (
+                        <div className="image-preview">
+                            <img src={profile.profileImage} alt="Profile" />
+                        </div>
+                    )}
+                    <input
+                        type="url"
+                        name="profileImage"
+                        value={profile.profileImage || ''}
+                        onChange={handleChange}
+                        placeholder="Enter image URL (e.g., https://example.com/image.jpg)"
+                    />
+                    <small>Tip: Upload your image to a service like Imgur or use a direct image URL</small>
+                </div>
+
+                <div className="form-group">
+                    <label>Short Bio (Hero Section) *</label>
                     <textarea
-                        name="bio"
-                        value={profile.bio}
+                        name="shortBio"
+                        value={profile.shortBio || ''}
                         onChange={handleChange}
                         required
-                        rows="4"
-                        placeholder="Tell visitors about yourself..."
+                        rows="3"
+                        placeholder="Brief introduction for the hero section (2-3 sentences)..."
                     />
+                    <small>This appears at the top of your portfolio with your profile image</small>
+                </div>
+
+                <div className="form-group">
+                    <label>Long Bio (About Section) *</label>
+                    <textarea
+                        name="longBio"
+                        value={profile.longBio || ''}
+                        onChange={handleChange}
+                        required
+                        rows="6"
+                        placeholder="Detailed description about yourself, your background, and experience..."
+                    />
+                    <small>This appears in the 'About Me' section</small>
                 </div>
 
                 <div className="form-row">

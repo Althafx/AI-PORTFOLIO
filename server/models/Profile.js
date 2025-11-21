@@ -13,7 +13,17 @@ const profileSchema = new mongoose.Schema({
     },
     bio: {
         type: String,
-        required: true
+        required: false  // Made optional for backward compatibility
+    },
+    shortBio: {
+        type: String,
+        required: false,
+        trim: true
+    },
+    longBio: {
+        type: String,
+        required: false,
+        trim: true
     },
     email: {
         type: String,

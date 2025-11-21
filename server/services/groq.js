@@ -1,11 +1,8 @@
-import { GoogleGenerativeAI } from '@google/generative-ai';
+import Groq from 'groq-sdk';
 import Profile from '../models/Profile.js';
 import Project from '../models/Project.js';
 import Skill from '../models/Skill.js';
 import Experience from '../models/Experience.js';
-
-// Initialize Gemini AI
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 // Function to build context from database
 async function buildContext() {
@@ -93,24 +90,39 @@ async function buildContext() {
     }
 }
 
-// Function to chat with Gemini
-export async function chatWithGemini(userMessage) {
+// Function to chat with Groq
+export async function chatWithGroq(userMessage) {
     try {
-        const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
+        const apiKey = process.env.GROQ_API_KEY;
+        if (!apiKey || apiKey === 'your_groq_api_key_here') {
+            throw new Error('GROQ_API_KEY is missing or invalid');
+        }
+
+        const groq = new Groq({ apiKey });
 
         // Build context from database
         const context = await buildContext();
 
-        // Create prompt with context
-        const prompt = `${context}\n\nUser Question: ${userMessage}\n\nYour Response:`;
+        const completion = await groq.chat.completions.create({
+            messages: [
+                {
+                    role: "system",
+                    content: context
+                },
+                {
+                    role: "user",
+                    content: userMessage
+                }
+            ],
+            model: "llama-3.1-8b-instant",
+        });
 
-        const result = await model.generateContent(prompt);
-        const response = await result.response;
-        const text = response.text();
-
-        return text;
+        return completion.choices[0]?.message?.content || "I couldn't generate a response.";
     } catch (error) {
-        console.error('Gemini API Error:', error);
+        console.error('Groq API Error:', error);
+        console.error('Error message:', error.message);
+        console.error('Error response:', error.response?.data || error.error);
+        console.error('Error status:', error.status);
         throw new Error('Failed to get response from AI');
     }
 }

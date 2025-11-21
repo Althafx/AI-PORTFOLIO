@@ -81,8 +81,32 @@
     min-height: 100px;
 }
 
+.form-group small {
+    color: var(--text-muted);
+    font-size: 0.875rem;
+    margin-top: -0.25rem;
+}
+
+.image-preview {
+    margin: var(--spacing-sm) 0;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    max-width: 300px;
+    border: 2px solid var(--border-color);
+}
+
+.image-preview img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
 @media (max-width: 768px) {
     .form-row {
         grid-template-columns: 1fr;
+    }
+
+    .image-preview {
+        max-width: 100%;
     }
 }

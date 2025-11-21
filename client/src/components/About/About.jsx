@@ -45,7 +45,7 @@ const About = () => {
                     {profile && (
                         <div className="about-bio glass fade-in">
                             <h3>Who I Am</h3>
-                            <p>{profile.bio}</p>
+                            <p>{profile.longBio || profile.bio}</p>
                             {profile.email && (
                                 <div className="contact-info">
                                     <div className="contact-item">

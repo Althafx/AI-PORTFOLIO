@@ -4,9 +4,7 @@ import { setToken } from '../../utils/auth';
 import './Login.css';
 
 const Login = ({ onLogin }) => {
-    const [isRegister, setIsRegister] = useState(false);
     const [formData, setFormData] = useState({
-        username: '',
         email: '',
         password: ''
     });
@@ -19,10 +17,7 @@ const Login = ({ onLogin }) => {
         setLoading(true);
 
         try {
-            const endpoint = isRegister ? '/api/auth/register' : '/api/auth/login';
-            const payload = isRegister ? formData : { email: formData.email, password: formData.password };
-
-            const response = await axios.post(endpoint, payload);
+            const response = await axios.post('/api/auth/login', formData);
             setToken(response.data.token);
             onLogin();
         } catch (err) {
@@ -39,23 +34,10 @@ const Login = ({ onLogin }) => {
                     <span className="gradient-text">Admin</span> Panel
                 </h1>
                 <p className="login-subtitle">
-                    {isRegister ? 'Create your admin account' : 'Sign in to manage your portfolio'}
+                    Sign in to manage your portfolio
                 </p>
 
                 <form onSubmit={handleSubmit} className="login-form">
-                    {isRegister && (
-                        <div className="form-group">
-                            <label>Username</label>
-                            <input
-                                type="text"
-                                value={formData.username}
-                                onChange={(e) => setFormData({ ...formData, username: e.target.value })}
-                                required
-                                placeholder="Enter username"
-                            />
-                        </div>
-                    )}
-
                     <div className="form-group">
                         <label>Email</label>
                         <input
@@ -63,7 +45,7 @@ const Login = ({ onLogin }) => {
                             value={formData.email}
                             onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                             required
-                            placeholder="Enter email"
+                            placeholder="Enter admin email"
                         />
                     </div>
 
@@ -74,7 +56,7 @@ const Login = ({ onLogin }) => {
                             value={formData.password}
                             onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                             required
-                            placeholder="Enter password"
+                            placeholder="Enter admin password"
                             minLength="6"
                         />
                     </div>
@@ -82,16 +64,9 @@ const Login = ({ onLogin }) => {
                     {error && <div className="error-message">{error}</div>}
 
                     <button type="submit" className="btn btn-primary" disabled={loading}>
-                        {loading ? 'Please wait...' : (isRegister ? 'Create Account' : 'Sign In')}
+                        {loading ? 'Please wait...' : 'Sign In'}
                     </button>
                 </form>
-
-                <p className="toggle-mode">
-                    {isRegister ? 'Already have an account?' : "Don't have an account?"}
-                    <button onClick={() => setIsRegister(!isRegister)} className="toggle-btn">
-                        {isRegister ? 'Sign In' : 'Register'}
-                    </button>
-                </p>
             </div>
         </div>
     );
