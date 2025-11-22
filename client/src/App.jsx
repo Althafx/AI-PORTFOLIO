@@ -5,7 +5,6 @@ import Hero from './components/Hero/Hero';
 import About from './components/About/About';
 import Projects from './components/Projects/Projects';
 import Contact from './components/Contact/Contact';
-import AIChatbot from './components/AIChatbot/AIChatbot';
 import Dashboard from './components/Admin/Dashboard';
 import './App.css';
 
@@ -67,8 +66,6 @@ function Portfolio() {
           <p className="footer-tech">Built with React, Node.js, MongoDB & Gemini AI</p>
         </div>
       </footer>
-
-      <AIChatbot />
     </div>
   );
 }

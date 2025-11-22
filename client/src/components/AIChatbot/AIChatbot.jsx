@@ -2,10 +2,9 @@ import { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import './AIChatbot.css';
 
-const AIChatbot = () => {
-    const [isOpen, setIsOpen] = useState(false);
+const AIChatbot = ({ isOpen, setIsOpen }) => {
     const [messages, setMessages] = useState([
-        { role: 'assistant', content: 'Hi! I\'m an AI assistant. Ask me anything about this portfolio!' }
+        { role: 'assistant', content: 'Hey! I\'m Eve, Althaf\'s AI assistant. Want to know about his skills, projects, or experience? Ask away.' }
     ]);
     const [input, setInput] = useState('');
     const [isLoading, setIsLoading] = useState(false);
@@ -50,41 +49,34 @@ const AIChatbot = () => {
 
     return (
         <>
-            {/* Chat Toggle Button */}
-            <button
-                className={`chat-toggle ${isOpen ? 'open' : ''}`}
-                onClick={() => setIsOpen(!isOpen)}
-                aria-label="Toggle AI Chat"
-            >
-                {isOpen ? (
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                        <path d="M6 18L18 6M6 6l12 12" strokeWidth="2" strokeLinecap="round" />
-                    </svg>
-                ) : (
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                        <path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                )}
-                <span className="chat-badge">AI</span>
-            </button>
-
             {/* Chat Window */}
             <div className={`chat-window glass ${isOpen ? 'open' : ''}`}>
                 <div className="chat-header">
                     <div className="chat-header-content">
                         <div className="chat-avatar">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z" />
-                            </svg>
+                            <img
+                                src="/eve-avatar.png"
+                                alt="EVE"
+                                style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '50%' }}
+                            />
                         </div>
                         <div>
-                            <h3>AI Assistant</h3>
+                            <h3>EVE AI</h3>
                             <p className="chat-status">
                                 <span className="status-dot"></span>
                                 Online
                             </p>
                         </div>
                     </div>
+                    <button
+                        className="chat-close-btn"
+                        onClick={() => setIsOpen(false)}
+                        aria-label="Close chat"
+                    >
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path d="M6 18L18 6M6 6l12 12" strokeWidth="2" strokeLinecap="round" />
+                        </svg>
+                    </button>
                 </div>
 
                 <div className="chat-messages">

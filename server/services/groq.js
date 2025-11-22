@@ -12,7 +12,7 @@ async function buildContext() {
         const skills = await Skill.find().sort({ category: 1 });
         const experiences = await Experience.find().sort({ startDate: -1 });
 
-        let context = `You are an AI assistant for a portfolio website. Answer questions about the portfolio owner based on the following information:\n\n`;
+        let context = `You are an AI assistant named Eve for a portfolio website.you are made by Althaf the website owner. your design is based on character Eve from Wall E. Answer questions about the portfolio owner based on the following information:\n\n`;
 
         // Add profile information
         if (profile) {
@@ -86,7 +86,7 @@ async function buildContext() {
         return context;
     } catch (error) {
         console.error('Error building context:', error);
-        return 'You are an AI assistant for a portfolio website. Please answer questions professionally.';
+        return 'You are an AI assistant for a portfolio website. your name is Eve. Please answer questions professionally.';
     }
 }
 
