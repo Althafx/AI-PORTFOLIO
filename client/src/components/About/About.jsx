@@ -78,6 +78,7 @@ const About = () => {
                                         <div key={skill._id} className="skill-item glass">
                                             <div className="skill-header">
                                                 <span className="skill-name">{skill.name}</span>
+                                                <span >ㅤ</span>
                                                 <span className="skill-percent">{skill.proficiency}%</span>
                                             </div>
                                             <div className="skill-bar">

@@ -21,6 +21,9 @@ const ProfileEditor = () => {
     });
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState('');
+    const [imageFile, setImageFile] = useState(null);
+    const [imagePreview, setImagePreview] = useState('');
+
 
     useEffect(() => {
         fetchProfile();
@@ -31,6 +34,9 @@ const ProfileEditor = () => {
             const response = await axios.get('/api/profile');
             if (response.data) {
                 setProfile(response.data);
+                if (response.data.profileImage) {
+                    setImagePreview(response.data.profileImage);
+                }
             }
         } catch (error) {
             console.error('Error fetching profile:', error);
@@ -43,10 +49,28 @@ const ProfileEditor = () => {
         setMessage('');
 
         try {
-            await axios.put('/api/profile', profile, {
-                headers: getAuthHeaders()
+            const formData = new FormData();
+
+            // Append all profile fields
+            Object.keys(profile).forEach(key => {
+                if (profile[key] !== null && profile[key] !== undefined) {
+                    formData.append(key, profile[key]);
+                }
+            });
+
+            // Append image file if selected
+            if (imageFile) {
+                formData.append('profileImage', imageFile);
+            }
+
+            await axios.put('/api/profile/upload', formData, {
+                headers: {
+                    ...getAuthHeaders(),
+                    'Content-Type': 'multipart/form-data'
+                }
             });
             setMessage('Profile updated successfully!');
+            fetchProfile(); // Refresh profile data
         } catch (error) {
             setMessage('Error updating profile: ' + (error.response?.data?.message || error.message));
         } finally {
@@ -57,6 +81,20 @@ const ProfileEditor = () => {
     const handleChange = (e) => {
         setProfile({ ...profile, [e.target.name]: e.target.value });
     };
+
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setImageFile(file);
+            // Create preview URL
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setImagePreview(reader.result);
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+
 
     return (
         <div className="profile-editor">
@@ -96,19 +134,17 @@ const ProfileEditor = () => {
 
                 <div className="form-group">
                     <label>Profile Image</label>
-                    {profile.profileImage && (
+                    {imagePreview && (
                         <div className="image-preview">
-                            <img src={profile.profileImage} alt="Profile" />
+                            <img src={imagePreview} alt="Profile" />
                         </div>
                     )}
                     <input
-                        type="url"
-                        name="profileImage"
-                        value={profile.profileImage || ''}
-                        onChange={handleChange}
-                        placeholder="Enter image URL (e.g., https://example.com/image.jpg)"
+                        type="file"
+                        accept="image/jpeg,image/jpg,image/png,image/gif,image/webp"
+                        onChange={handleImageChange}
                     />
-                    <small>Tip: Upload your image to a service like Imgur or use a direct image URL</small>
+                    <small>Upload an image from your computer (max 5MB, formats: JPEG, PNG, GIF, WebP)</small>
                 </div>
 
                 <div className="form-group">

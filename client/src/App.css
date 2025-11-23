@@ -62,22 +62,6 @@
   width: 100%;
 }
 
-.admin-link {
-  padding: 0.5rem 1rem;
-  background: var(--bg-glass);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-md);
-}
-
-.admin-link:hover {
-  background: var(--bg-glass-hover);
-  border-color: var(--primary);
-}
-
-.admin-link::after {
-  display: none;
-}
-
 main {
   padding-top: 80px;
 }

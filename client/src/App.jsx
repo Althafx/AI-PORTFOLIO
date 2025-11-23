@@ -43,12 +43,6 @@ function Portfolio() {
             <a href="/#about" className="nav-link">About</a>
             <a href="/#projects" className="nav-link">Projects</a>
             <a href="/#contact" className="nav-link">Contact</a>
-            <a href="/admin" className="nav-link admin-link">
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
-                <path d="M8 8a3 3 0 100-6 3 3 0 000 6zM12.93 11.93A7.5 7.5 0 108 15.5a7.5 7.5 0 004.93-4.57z" />
-              </svg>
-              Admin
-            </a>
           </div>
         </div>
       </nav>
@@ -63,7 +57,7 @@ function Portfolio() {
       <footer className="footer">
         <div className="container">
           <p>&copy; {new Date().getFullYear()} {profile?.name || 'Your Name'}. All rights reserved.</p>
-          <p className="footer-tech">Built with React, Node.js, MongoDB & Gemini AI</p>
+          <p className="footer-tech">Built with React, Node.js, MongoDB & Groq AI</p>
         </div>
       </footer>
     </div>

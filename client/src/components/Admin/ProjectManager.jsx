@@ -17,6 +17,8 @@ const ProjectManager = () => {
         featured: false
     });
     const [message, setMessage] = useState('');
+    const [imageFile, setImageFile] = useState(null);
+    const [imagePreview, setImagePreview] = useState('');
 
     useEffect(() => {
         fetchProjects();
@@ -36,19 +38,39 @@ const ProjectManager = () => {
         setMessage('');
 
         try {
-            const projectData = {
-                ...formData,
-                technologies: formData.technologies.split(',').map(t => t.trim()).filter(t => t)
-            };
+            const uploadData = new FormData();
+
+            // Append all form fields
+            uploadData.append('title', formData.title);
+            uploadData.append('description', formData.description);
+            uploadData.append('longDescription', formData.longDescription);
+            uploadData.append('githubUrl', formData.githubUrl);
+            uploadData.append('liveUrl', formData.liveUrl);
+            uploadData.append('featured', formData.featured);
+
+            // Append technologies as JSON string
+            const technologies = formData.technologies.split(',').map(t => t.trim()).filter(t => t);
+            uploadData.append('technologies', JSON.stringify(technologies));
+
+            // Append image file if selected
+            if (imageFile) {
+                uploadData.append('image', imageFile);
+            }
 
             if (editingProject) {
-                await axios.put(`/api/projects/${editingProject._id}`, projectData, {
-                    headers: getAuthHeaders()
+                await axios.put(`/api/projects/${editingProject._id}/upload`, uploadData, {
+                    headers: {
+                        ...getAuthHeaders(),
+                        'Content-Type': 'multipart/form-data'
+                    }
                 });
                 setMessage('Project updated successfully!');
             } else {
-                await axios.post('/api/projects', projectData, {
-                    headers: getAuthHeaders()
+                await axios.post('/api/projects/upload', uploadData, {
+                    headers: {
+                        ...getAuthHeaders(),
+                        'Content-Type': 'multipart/form-data'
+                    }
                 });
                 setMessage('Project created successfully!');
             }
@@ -71,6 +93,9 @@ const ProjectManager = () => {
             liveUrl: project.liveUrl || '',
             featured: project.featured
         });
+        if (project.image) {
+            setImagePreview(project.image);
+        }
         setShowForm(true);
     };
 
@@ -98,6 +123,8 @@ const ProjectManager = () => {
             liveUrl: '',
             featured: false
         });
+        setImageFile(null);
+        setImagePreview('');
         setEditingProject(null);
         setShowForm(false);
     };
@@ -105,6 +132,19 @@ const ProjectManager = () => {
     const handleChange = (e) => {
         const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
         setFormData({ ...formData, [e.target.name]: value });
+    };
+
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setImageFile(file);
+            // Create preview URL
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setImagePreview(reader.result);
+            };
+            reader.readAsDataURL(file);
+        }
     };
 
     return (
@@ -173,6 +213,21 @@ const ProjectManager = () => {
                             required
                             placeholder="React, Node.js, MongoDB"
                         />
+                    </div>
+
+                    <div className="form-group">
+                        <label>Project Image</label>
+                        {imagePreview && (
+                            <div className="image-preview">
+                                <img src={imagePreview} alt="Project" />
+                            </div>
+                        )}
+                        <input
+                            type="file"
+                            accept="image/jpeg,image/jpg,image/png,image/gif,image/webp"
+                            onChange={handleImageChange}
+                        />
+                        <small>Upload an image from your computer (max 5MB, formats: JPEG, PNG, GIF, WebP)</small>
                     </div>
 
                     <div className="form-row">
