@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { getImageUrl } from '../../utils/imageUtils';
 import './Hero.css';
 
 
@@ -54,13 +55,13 @@ const Hero = ({ profile }) => {
                         </button>
                     </div>
 
-                 
+
                 </div>
 
                 {profile?.profileImage && (
                     <div className="hero-image fade-in">
                         <div className="image-container">
-                            <img src={profile.profileImage} alt={profile.name} />
+                            <img src={getImageUrl(profile.profileImage)} alt={profile.name} />
                         </div>
                     </div>
                 )}

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import api from '../../utils/api';
 import { getAuthHeaders } from '../../utils/auth';
+import { getImageUrl } from '../../utils/imageUtils';
 import './ProfileEditor.css';
 
 const ProfileEditor = () => {
@@ -35,7 +36,7 @@ const ProfileEditor = () => {
             if (response.data) {
                 setProfile(response.data);
                 if (response.data.profileImage) {
-                    setImagePreview(response.data.profileImage);
+                    setImagePreview(getImageUrl(response.data.profileImage));
                 }
             }
         } catch (error) {

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { API_URL } from '../../config';
+import { getImageUrl } from '../../utils/imageUtils';
 import './Projects.css';
 
 const Projects = () => {
@@ -87,7 +88,7 @@ const Projects = () => {
 
                             {project.image && (
                                 <div className="project-image">
-                                    <img src={project.image} alt={project.title} />
+                                    <img src={getImageUrl(project.image)} alt={project.title} />
                                     <div className="project-overlay">
                                         <div className="project-links">
                                             {project.liveUrl && (

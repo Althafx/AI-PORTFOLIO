@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import api from '../../utils/api';
 import { getAuthHeaders } from '../../utils/auth';
+import { getImageUrl } from '../../utils/imageUtils';
 import './ProjectManager.css';
 
 const ProjectManager = () => {
@@ -94,7 +95,7 @@ const ProjectManager = () => {
             featured: project.featured
         });
         if (project.image) {
-            setImagePreview(project.image);
+            setImagePreview(getImageUrl(project.image));
         }
         setShowForm(true);
     };
