@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../../utils/api';
 import { getAuthHeaders } from '../../utils/auth';
 import './ProfileEditor.css';
 
@@ -31,7 +31,7 @@ const ProfileEditor = () => {
 
     const fetchProfile = async () => {
         try {
-            const response = await axios.get('/api/profile');
+            const response = await api.get('/api/profile');
             if (response.data) {
                 setProfile(response.data);
                 if (response.data.profileImage) {
@@ -63,7 +63,7 @@ const ProfileEditor = () => {
                 formData.append('profileImage', imageFile);
             }
 
-            await axios.put('/api/profile/upload', formData, {
+            await api.put('/api/profile/upload', formData, {
                 headers: {
                     ...getAuthHeaders(),
                     'Content-Type': 'multipart/form-data'

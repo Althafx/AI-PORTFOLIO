@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../../utils/api';
 import { getAuthHeaders } from '../../utils/auth';
 import './SkillsManager.css';
 
@@ -22,7 +22,7 @@ const SkillsManager = () => {
 
     const fetchSkills = async () => {
         try {
-            const response = await axios.get('/api/skills');
+            const response = await api.get('/api/skills');
             setSkills(response.data);
         } catch (error) {
             console.error('Error fetching skills:', error);
@@ -35,12 +35,12 @@ const SkillsManager = () => {
 
         try {
             if (editingSkill) {
-                await axios.put(`/api/skills/${editingSkill._id}`, formData, {
+                await api.put(`/api/skills/${editingSkill._id}`, formData, {
                     headers: getAuthHeaders()
                 });
                 setMessage('Skill updated successfully!');
             } else {
-                await axios.post('/api/skills', formData, {
+                await api.post('/api/skills', formData, {
                     headers: getAuthHeaders()
                 });
                 setMessage('Skill added successfully!');
@@ -67,7 +67,7 @@ const SkillsManager = () => {
         if (!window.confirm('Are you sure you want to delete this skill?')) return;
 
         try {
-            await axios.delete(`/api/skills/${id}`, {
+            await api.delete(`/api/skills/${id}`, {
                 headers: getAuthHeaders()
             });
             setMessage('Skill deleted successfully!');

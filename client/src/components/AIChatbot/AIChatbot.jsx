@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import axios from 'axios';
+import api from '../../utils/api';
 import './AIChatbot.css';
 
 const AIChatbot = ({ isOpen, setIsOpen }) => {
@@ -27,7 +27,7 @@ const AIChatbot = ({ isOpen, setIsOpen }) => {
         setIsLoading(true);
 
         try {
-            const response = await axios.post('/api/chat', { message: userMessage });
+            const response = await api.post('/api/chat', { message: userMessage });
             setMessages(prev => [...prev, { role: 'assistant', content: response.data.response }]);
         } catch (error) {
             console.error('Chat error:', error);

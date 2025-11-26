@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { API_URL } from '../../config';
 import './Contact.css';
 
 const Contact = () => {
@@ -10,7 +11,7 @@ const Contact = () => {
 
     const fetchProfile = async () => {
         try {
-            const response = await fetch('/api/profile');
+            const response = await fetch(`${API_URL}/api/profile`);
             if (response.ok) {
                 setProfile(await response.json());
             }

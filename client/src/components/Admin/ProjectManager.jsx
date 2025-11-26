@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../../utils/api';
 import { getAuthHeaders } from '../../utils/auth';
 import './ProjectManager.css';
 
@@ -26,7 +26,7 @@ const ProjectManager = () => {
 
     const fetchProjects = async () => {
         try {
-            const response = await axios.get('/api/projects');
+            const response = await api.get('/api/projects');
             setProjects(response.data);
         } catch (error) {
             console.error('Error fetching projects:', error);
@@ -58,7 +58,7 @@ const ProjectManager = () => {
             }
 
             if (editingProject) {
-                await axios.put(`/api/projects/${editingProject._id}/upload`, uploadData, {
+                await api.put(`/api/projects/${editingProject._id}/upload`, uploadData, {
                     headers: {
                         ...getAuthHeaders(),
                         'Content-Type': 'multipart/form-data'
@@ -66,7 +66,7 @@ const ProjectManager = () => {
                 });
                 setMessage('Project updated successfully!');
             } else {
-                await axios.post('/api/projects/upload', uploadData, {
+                await api.post('/api/projects/upload', uploadData, {
                     headers: {
                         ...getAuthHeaders(),
                         'Content-Type': 'multipart/form-data'
@@ -103,7 +103,7 @@ const ProjectManager = () => {
         if (!window.confirm('Are you sure you want to delete this project?')) return;
 
         try {
-            await axios.delete(`/api/projects/${id}`, {
+            await api.delete(`/api/projects/${id}`, {
                 headers: getAuthHeaders()
             });
             setMessage('Project deleted successfully!');

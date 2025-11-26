@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { API_URL } from './config';
 import EveRobot from './components/EveRobot/EveRobot';
 import Hero from './components/Hero/Hero';
 import About from './components/About/About';
@@ -17,7 +18,7 @@ function Portfolio() {
 
   const fetchProfile = async () => {
     try {
-      const response = await fetch('/api/profile');
+      const response = await fetch(`${API_URL}/api/profile`);
       if (response.ok) {
         const data = await response.json();
         setProfile(data);

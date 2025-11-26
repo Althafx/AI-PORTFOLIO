@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { API_URL } from '../../config';
 import './About.css';
 
 const About = () => {
@@ -12,8 +13,8 @@ const About = () => {
     const fetchData = async () => {
         try {
             const [profileRes, skillsRes] = await Promise.all([
-                fetch('/api/profile'),
-                fetch('/api/skills')
+                fetch(`${API_URL}/api/profile`),
+                fetch(`${API_URL}/api/skills`)
             ]);
 
             if (profileRes.ok) setProfile(await profileRes.json());

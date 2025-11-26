@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import axios from 'axios';
+import api from '../../utils/api';
 import { setToken } from '../../utils/auth';
 import './Login.css';
 
@@ -17,7 +17,7 @@ const Login = ({ onLogin }) => {
         setLoading(true);
 
         try {
-            const response = await axios.post('/api/auth/login', formData);
+            const response = await api.post('/api/auth/login', formData);
             setToken(response.data.token);
             onLogin();
         } catch (err) {
