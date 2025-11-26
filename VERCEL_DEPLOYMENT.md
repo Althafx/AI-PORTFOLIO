@@ -84,6 +84,42 @@ vercel --prod
 
 ## Troubleshooting
 
+### Login Issues ("Invalid email or password")
+
+If you're getting "Invalid email or password" errors in production:
+
+1. **Check Environment Variables in Vercel**:
+   - Go to your Vercel project → Settings → Environment Variables
+   - Ensure `VITE_API_URL` is set to your Render backend URL
+   - Example: `https://ai-portfolio-backend.onrender.com`
+   - **Important**: Redeploy after adding/changing environment variables
+
+2. **Check Environment Variables in Render**:
+   - Go to your Render service → Environment
+   - Ensure `CLIENT_URL` includes your Vercel URL
+   - Example: `https://your-app.vercel.app,http://localhost:5173`
+   - Multiple URLs should be comma-separated
+
+3. **Check Browser Console**:
+   - Open browser DevTools (F12) → Console tab
+   - Look for the API endpoint being called
+   - If it shows `http://localhost:5000`, the `VITE_API_URL` isn't set correctly
+
+4. **Check Render Logs**:
+   - Go to your Render service → Logs
+   - Look for login attempt messages with emoji indicators (🔐, 📧, etc.)
+   - Check if requests are reaching the backend
+   - Verify CORS origin is being allowed
+
+5. **Verify Credentials**:
+   - Email: `admin@portfolio.com`
+   - Password: `OFFICIAL0487`
+   - Ensure no extra spaces when typing
+
+6. **Check CORS Errors**:
+   - Look for CORS errors in browser console
+   - If you see CORS errors, verify `CLIENT_URL` in Render includes your Vercel URL
+
 ### If build still fails with MODULE_NOT_FOUND:
 
 1. **Clear Vercel cache**:
