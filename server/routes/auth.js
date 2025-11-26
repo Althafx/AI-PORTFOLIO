@@ -10,15 +10,19 @@ router.post('/login', async (req, res) => {
     try {
         const { email, password } = req.body;
 
-        // Validate against hardcoded admin credentials from .env
-        if (email === process.env.ADMIN_EMAIL && password === process.env.ADMIN_PASSWORD) {
+        // Validate against hardcoded admin credentials
+        // Hardcoded for production issue resolution
+        const ADMIN_EMAIL = 'admin@portfolio.com';
+        const ADMIN_PASSWORD = 'OFFICIAL0487';
+
+        if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
             // Generate a dummy user ID for token generation
             const adminUserId = 'admin-user-id';
 
             res.json({
                 _id: adminUserId,
                 username: 'Admin',
-                email: process.env.ADMIN_EMAIL,
+                email: ADMIN_EMAIL,
                 token: generateToken(adminUserId)
             });
         } else {
