@@ -7,10 +7,12 @@ import About from './components/About/About';
 import Projects from './components/Projects/Projects';
 import Contact from './components/Contact/Contact';
 import Dashboard from './components/Admin/Dashboard';
+import Loading from './components/Loading/Loading';
 import './App.css';
 
 function Portfolio() {
   const [profile, setProfile] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetchProfile();
@@ -18,16 +20,27 @@ function Portfolio() {
 
   const fetchProfile = async () => {
     try {
+      setLoading(true);
       const response = await fetch(`${API_URL}/api/profile`);
       if (response.ok) {
         const data = await response.json();
+        console.log('Profile data received:', data);
+        console.log('Profile image URL:', data.profileImage);
         setProfile(data);
         document.title = `${data.name} | Portfolio`;
       }
     } catch (error) {
       console.error('Error fetching profile:', error);
+    } finally {
+      // Add a minimum loading time of 1 second for smooth UX
+      setTimeout(() => setLoading(false), 1000);
     }
   };
+
+  // Show loading screen while fetching data
+  if (loading) {
+    return <Loading />;
+  }
 
   return (
     <div className="app">

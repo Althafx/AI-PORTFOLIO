@@ -6,13 +6,19 @@ import { API_URL } from '../config';
  * - Otherwise, prepend the API_URL to make it a full backend URL
  */
 export const getImageUrl = (imagePath) => {
-    if (!imagePath) return null;
+    if (!imagePath) {
+        console.warn('getImageUrl: No image path provided');
+        return null;
+    }
 
     // If it's already a full URL (Cloudinary), return as is
     if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
+        console.log('getImageUrl: Using Cloudinary URL:', imagePath);
         return imagePath;
     }
 
     // Otherwise, construct full backend URL
-    return `${API_URL}${imagePath}`;
+    const fullUrl = `${API_URL}${imagePath}`;
+    console.log('getImageUrl: Constructing backend URL:', fullUrl);
+    return fullUrl;
 };

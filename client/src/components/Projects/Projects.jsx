@@ -88,7 +88,15 @@ const Projects = () => {
 
                             {project.image && (
                                 <div className="project-image">
-                                    <img src={getImageUrl(project.image)} alt={project.title} />
+                                    <img
+                                        src={getImageUrl(project.image)}
+                                        alt={project.title}
+                                        onLoad={() => console.log('Project image loaded:', project.title, project.image)}
+                                        onError={(e) => {
+                                            console.error('Project image failed to load:', project.title, project.image);
+                                            console.error('Attempted URL:', e.target.src);
+                                        }}
+                                    />
                                     <div className="project-overlay">
                                         <div className="project-links">
                                             {project.liveUrl && (
@@ -176,7 +184,15 @@ const Projects = () => {
 
                         {selectedProject.image && (
                             <div className="modal-image">
-                                <img src={selectedProject.image} alt={selectedProject.title} />
+                                <img
+                                    src={getImageUrl(selectedProject.image)}
+                                    alt={selectedProject.title}
+                                    onLoad={() => console.log('Modal image loaded:', selectedProject.title)}
+                                    onError={(e) => {
+                                        console.error('Modal image failed to load:', selectedProject.title);
+                                        console.error('Attempted URL:', e.target.src);
+                                    }}
+                                />
                             </div>
                         )}
 

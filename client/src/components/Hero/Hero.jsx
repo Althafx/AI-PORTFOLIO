@@ -61,7 +61,17 @@ const Hero = ({ profile }) => {
                 {profile?.profileImage && (
                     <div className="hero-image fade-in">
                         <div className="image-container">
-                            <img src={getImageUrl(profile.profileImage)} alt={profile.name} />
+                            <img
+                                src={getImageUrl(profile.profileImage)}
+                                alt={profile.name}
+                                onLoad={() => console.log('Hero image loaded successfully:', profile.profileImage)}
+                                onError={(e) => {
+                                    console.error('Hero image failed to load:', profile.profileImage);
+                                    console.error('Attempted URL:', e.target.src);
+                                    // Hide the image container if image fails to load
+                                    e.target.style.display = 'none';
+                                }}
+                            />
                         </div>
                     </div>
                 )}
