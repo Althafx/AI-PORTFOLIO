@@ -67,6 +67,17 @@ router.post('/', protect, async (req, res) => {
 // @access  Private
 router.post('/upload', protect, upload.single('image'), async (req, res) => {
     try {
+        console.log('📝 Project create with upload request received');
+        console.log('File uploaded:', req.file ? 'Yes' : 'No');
+        if (req.file) {
+            console.log('File details:', {
+                originalname: req.file.originalname,
+                mimetype: req.file.mimetype,
+                size: req.file.size,
+                cloudinaryPath: req.file.path
+            });
+        }
+
         const projectData = {
             ...req.body,
             technologies: req.body.technologies ? JSON.parse(req.body.technologies) : []
@@ -74,13 +85,18 @@ router.post('/upload', protect, upload.single('image'), async (req, res) => {
 
         if (req.file) {
             projectData.image = req.file.path; // Cloudinary URL
+            console.log('✅ Cloudinary URL:', req.file.path);
         }
 
         const project = await Project.create(projectData);
+        console.log('✅ Project created successfully');
         res.status(201).json(project);
     } catch (error) {
-        console.error('Error creating project with upload:', error);
-        res.status(500).json({ message: error.message });
+        console.error('❌ Error creating project with upload:', error);
+        res.status(500).json({
+            message: error.message,
+            details: error.stack
+        });
     }
 });
 
@@ -113,6 +129,17 @@ router.put('/:id', protect, async (req, res) => {
 // @access  Private
 router.put('/:id/upload', protect, upload.single('image'), async (req, res) => {
     try {
+        console.log('📝 Project update with upload request received for ID:', req.params.id);
+        console.log('File uploaded:', req.file ? 'Yes' : 'No');
+        if (req.file) {
+            console.log('File details:', {
+                originalname: req.file.originalname,
+                mimetype: req.file.mimetype,
+                size: req.file.size,
+                cloudinaryPath: req.file.path
+            });
+        }
+
         const project = await Project.findById(req.params.id);
 
         if (!project) {
@@ -128,6 +155,7 @@ router.put('/:id/upload', protect, upload.single('image'), async (req, res) => {
 
         if (req.file) {
             updateData.image = req.file.path; // Cloudinary URL
+            console.log('✅ Cloudinary URL:', req.file.path);
         }
 
         const updatedProject = await Project.findByIdAndUpdate(
@@ -136,10 +164,14 @@ router.put('/:id/upload', protect, upload.single('image'), async (req, res) => {
             { new: true, runValidators: true }
         );
 
+        console.log('✅ Project updated successfully');
         res.json(updatedProject);
     } catch (error) {
-        console.error('Error updating project with upload:', error);
-        res.status(500).json({ message: error.message });
+        console.error('❌ Error updating project with upload:', error);
+        res.status(500).json({
+            message: error.message,
+            details: error.stack
+        });
     }
 });
 

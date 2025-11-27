@@ -60,6 +60,17 @@ router.put('/', protect, async (req, res) => {
 // @access  Private
 router.put('/upload', protect, upload.single('profileImage'), async (req, res) => {
     try {
+        console.log('📝 Profile upload request received');
+        console.log('File uploaded:', req.file ? 'Yes' : 'No');
+        if (req.file) {
+            console.log('File details:', {
+                originalname: req.file.originalname,
+                mimetype: req.file.mimetype,
+                size: req.file.size,
+                cloudinaryPath: req.file.path
+            });
+        }
+
         let profile = await Profile.findOne();
 
         const updateData = { ...req.body };
@@ -67,6 +78,7 @@ router.put('/upload', protect, upload.single('profileImage'), async (req, res) =
         // If a file was uploaded, add the Cloudinary URL
         if (req.file) {
             updateData.profileImage = req.file.path; // Cloudinary URL
+            console.log('✅ Cloudinary URL:', req.file.path);
         }
 
         if (profile) {
@@ -76,14 +88,20 @@ router.put('/upload', protect, upload.single('profileImage'), async (req, res) =
                 updateData,
                 { new: true, runValidators: true }
             );
+            console.log('✅ Profile updated successfully');
         } else {
             // Create new profile
             profile = await Profile.create(updateData);
+            console.log('✅ Profile created successfully');
         }
 
         res.json(profile);
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        console.error('❌ Profile upload error:', error);
+        res.status(500).json({
+            message: error.message,
+            details: error.stack
+        });
     }
 });
 
