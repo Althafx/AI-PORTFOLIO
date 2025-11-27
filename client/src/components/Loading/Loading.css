@@ -63,7 +63,10 @@
     font-size: 1.2rem;
     font-weight: 600;
     white-space: nowrap;
-    animation: pulse 1.5s ease-in-out infinite;
+    animation: fadeInText 1s ease-in-out;
+    max-width: 90vw;
+    text-align: center;
+    padding: 0 1rem;
 }
 
 @keyframes spin {
@@ -76,15 +79,15 @@
     }
 }
 
-@keyframes pulse {
-
-    0%,
-    100% {
-        opacity: 1;
+@keyframes fadeInText {
+    0% {
+        opacity: 0;
+        transform: translateY(10px);
     }
 
-    50% {
-        opacity: 0.5;
+    100% {
+        opacity: 1;
+        transform: translateY(0);
     }
 }
 
