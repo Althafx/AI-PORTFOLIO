@@ -101,7 +101,7 @@ ai-portfolio/
 Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## 📄 License
-Balanced under the MIT License.
+Licensed under the MIT License.
 
 ---
 *Created by Althaf*
